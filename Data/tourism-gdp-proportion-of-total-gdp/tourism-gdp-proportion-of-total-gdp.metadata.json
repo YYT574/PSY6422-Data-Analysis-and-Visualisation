@@ -1,0 +1,35 @@
+{
+  "chart": {
+    "title": "Share of GDP from tourism",
+    "citation": "UNWTO (2024)",
+    "originalChartUrl": "https://ourworldindata.org/grapher/tourism-gdp-proportion-of-total-gdp?v=1&csvType=full&useColumnShortNames=false",
+    "selection": [
+      "Malawi",
+      "Vietnam",
+      "Czechia",
+      "Namibia",
+      "Canada",
+      "Croatia"
+    ]
+  },
+  "columns": {
+    "GDP from tourism as a share of total GDP": {
+      "titleShort": "GDP from tourism as a share of total GDP",
+      "titleLong": "GDP from tourism as a share of total GDP",
+      "descriptionShort": "Tourism's contribution to [GDP](#dod:gdp) includes inputs from industries directly related to tourism as well as other sectors that serve visitors.",
+      "shortUnit": "%",
+      "unit": "%",
+      "timespan": "2008-2022",
+      "type": "Numeric",
+      "owidVariableId": 985196,
+      "shortName": "tourism_share_gdp",
+      "lastUpdated": "2024-08-17",
+      "nextUpdate": "2025-11-16",
+      "citationShort": "UNWTO (2024) – processed by Our World in Data",
+      "citationLong": "UNWTO (2024) – processed by Our World in Data. “GDP from tourism as a share of total GDP” [dataset]. UNWTO, “Tourism direct GDP as a proportion of total GDP” [original data].",
+      "fullMetadata": "https://api.ourworldindata.org/v1/indicators/985196.metadata.json"
+    }
+  },
+  "dateDownloaded": "2025-10-16",
+  "activeFilters": {}
+}

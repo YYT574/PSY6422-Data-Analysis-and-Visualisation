@@ -1,0 +1,163 @@
+---
+title: "PSY6422 Data Analysis and Visualisation"
+author: "Yantong Yao"
+ID: "250134722"
+date: "2025-11-26"
+format: html
+editor: visual
+---
+
+### **Global Tourism: Employment and Economic Contribution**
+
+### 1. Data Origins
+
+The data used in this analysis comes from publicly available tourism employment and economic contribution indicators published by tourism statistical agencies and international organizations (such as the World Tourism Organization, National Statistics Offices, etc.) of various countries. Figure 1, "Employment Trends in Tourism of Some Countries (per 1,000 people) from 2007 to 2016," covers countries such as France, South Africa, the UK, Greece, Spain, and the US. It tracks the vertical changes in the proportion of the population employed directly in the tourism industry.
+
+Figure 2, "Comparison of Tourism Employment and GDP Contribution," compares the average employment density (number of jobs per 1,000 people) and tourism GDP share of countries like Malaysia and Spain horizontally, reflecting the role differences of the tourism industry in their respective economic structures. The data may have been standardized (e.g., units unified as "per 1,000 people") and adjusted to exclude the effects of exchange rate fluctuations or differences in statistical methodologies to ensure cross-country comparability. (<https://ourworldindata.org/)>
+
+**Tourism Employment Data:** `number-of-individuals-employed-in-tourism-related-industries-per-1000-people.csv`
+
+**Tourism GDP Data:** `tourism-gdp-proportion-of-total-gdp.csv`
+
+**The variables in the raw data are**
+
+-   **Entity** — Country name
+-   **Code** — ISO3 country code
+-   **Year** — Year of measurement
+-   **Employment_per_1000** — Individuals employed in tourism industries per 1,000 people
+-   **Tourism_GDP_Share** — Share of GDP contributed by tourism (%)
+
+## 2. Research Questions
+
+1.  How have employment levels in tourism industries changed over time (2007-2016) in a selection of key tourist destinations?
+2.  How do average tourism employment levels compare with tourism GDP contribution across countries?
+
+## 3. Data Preparation
+
+**Load Libraries**
+
+```{r}
+# Load required libraries
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales)
+```
+
+**Load Data**
+
+```{r}
+# Read the data
+tourism_employment <- read.csv("number-of-individuals-employed-in-tourism-related-industries-per-1000-people.csv")
+tourism_gdp <- read.csv("tourism-gdp-proportion-of-total-gdp.csv")
+```
+
+**Data Cleaning and Preprocess**
+
+```{r}
+# Clean column names
+names(tourism_employment) <- c("Entity", "Code", "Year", "Employment_per_1000")
+names(tourism_gdp) <- c("Entity", "Code", "Year", "Tourism_GDP_Share")
+
+# Glimpse of the raw data
+head(tourism_employment)                       
+head(tourism_gdp)
+
+# Check data structure and summary
+str(tourism_employment)
+summary(tourism_employment)
+
+str(tourism_gdp)
+summary(tourism_gdp)
+```
+
+**Cleaning and Merging**
+
+```{r}
+# Handle missing values
+tourism_employment <- tourism_employment %>% 
+  filter(!is.na(Employment_per_1000))
+
+tourism_gdp <- tourism_gdp %>% 
+  filter(!is.na(Tourism_GDP_Share))
+
+# Create a combined dataset for analysis
+combined_data <- tourism_employment %>%
+  inner_join(tourism_gdp, by = c("Entity", "Code", "Year"))
+
+# Select key countries for trend analysis
+key_countries <- c("Spain", "France", "United States", "South Africa", "United Kingdom", "Greece")
+
+# Specific country and time period
+trend_data <- tourism_employment %>%
+  filter(Entity %in% key_countries,
+         Year >= 2007,
+         Year <= 2016)
+
+# Glimpse of the processed data
+head(combined_data) 
+head(key_countries)
+head(trend_data)
+```
+
+## 4. Visualisation(s)
+
+## 4.1. Line Graph: Tourism Employment Trends
+
+This line chart shows the trend of the number of tourism-related jobs per thousand people in six tourist countries from 2007 to 2016 over a decade
+
+```{r}
+# Create a line chart to display employment trends
+ggplot(trend_data, aes(x = Year, y = Employment_per_1000, color = Entity, group = Entity)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 1) +
+  labs(title = "Tourism Employment Trends in Selected Countries (per 1,000 people)",
+       x = "Year",
+       y = "Employment in Tourism Industries per 1,000 people",
+       color = "Country") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+## 4.2. Bar Chart: Comparison of Tourism Employment and GDP Contribution
+
+This bar chart presents the average share of tourism employment and tourism GDP in each country
+
+```{r}
+# Calculate the average for each country
+country_bar_data <- combined_data %>%
+  filter(Entity %in% key_countries) %>%
+  group_by(Entity) %>%
+  summarise(
+    Avg_Employment = mean(Employment_per_1000, na.rm = TRUE),
+    Avg_GDP_Share = mean(Tourism_GDP_Share, na.rm = TRUE)
+  ) %>%
+  pivot_longer(cols = c(Avg_Employment, Avg_GDP_Share), 
+               names_to = "Metric", 
+               values_to = "Value")
+
+# Glimpse of the processed data
+head(country_bar_data)
+
+# Create grouped bar chart
+ggplot(country_bar_data, aes(x = reorder(Entity, Value), y = Value, fill = Metric)) +
+  geom_col(position = "dodge") +
+  labs(title = "Comparison of tourism employment and GDP contribution in representative countries",
+       x = "Country",
+       y = "Value",
+       fill = "Indicator") +
+  scale_fill_manual(values = c("Avg_Employment" = "blue", "Avg_GDP_Share" = "orange"),
+                    labels = c("Average employment/per thousand", "Tourism GDP proportion(%)")) +
+  coord_flip() +
+  theme_minimal()
+```
+
+## Summary
+
+From the chart, it can be observed that there are significant differences in tourism employment trends and economic contributions among different countries. Figure 1 shows that Spain experienced a sharp decline in employment after 2008, followed by a gradual recovery, reflecting its tourism industry's sensitivity to global economic fluctuations. Greece, on the other hand, shows a continuous downward trend, which may be related to economic restructuring following the debt crisis. In contrast, countries like France and the United States exhibit relatively stable employment trends, indicating their tourism industry's strong risk resilience.
+
+Figure 2 further reveals the asymmetry between employment density and GDP contribution: Malaysia leads in the number of jobs per thousand people in the tourism industry, but accounts for an extremely low GDP share, suggesting its dominance in low-value-added labor-intensive models. Spain, on the other hand, shows a moderate balance between employment and GDP, reflecting the characteristics of a mature tourism economy.
+
+Future research could delve into the analysis of policy interventions, such as the impact of visa facilitation or unexpected events on employment elasticity, or compare the spillover effects of tourism in different countries on regional development. Additionally, combining tourist consumption structure data could further reveal the correlation between employment quality and economic benefits.
+
+# 

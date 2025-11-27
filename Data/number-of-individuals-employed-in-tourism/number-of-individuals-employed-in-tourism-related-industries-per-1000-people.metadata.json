@@ -1,0 +1,38 @@
+{
+  "chart": {
+    "title": "Employment in tourism-related industries per 1,000 people",
+    "note": "Includes employees and the self-employed. Individuals who are employed may hold multiple jobs concurrently.",
+    "citation": "UNWTO (2024); Population based on various sources (2024)",
+    "originalChartUrl": "https://ourworldindata.org/grapher/number-of-individuals-employed-in-tourism-related-industries-per-1000-people?v=1&csvType=full&useColumnShortNames=false",
+    "selection": [
+      "Mexico",
+      "New Zealand",
+      "Macao",
+      "Spain"
+    ]
+  },
+  "columns": {
+    "Total employment in tourism industries per 1,000 people": {
+      "titleShort": "Total employment in tourism industries per 1,000 people",
+      "titleLong": "Total employment in tourism industries per 1,000 people",
+      "descriptionKey": [
+        "Per \"1,000 people\" in the context of people employed in the food and beverage industries refers to the calculation of employment rates per 1,000 individuals within the population of the country.",
+        "This methodology allows for standardized comparison and analysis of data or rates, ensuring consistency across different population sizes.",
+        "For example, if there are \"10 employed individuals per 1,000 people,\" it means that among every 1,000 individuals in the population, there are 10 people who are employed in the food and beverage industries.",
+        "This indicator provides an insight into the level of employment in this specific sector and enables cross-country comparisons."
+      ],
+      "unit": "persons per 1,000 people",
+      "timespan": "1995-2022",
+      "type": "Numeric",
+      "owidVariableId": 985118,
+      "shortName": "employment_total_per_1000",
+      "lastUpdated": "2024-08-17",
+      "nextUpdate": "2025-12-27",
+      "citationShort": "UNWTO (2024); Population based on various sources (2024) – with major processing by Our World in Data",
+      "citationLong": "UNWTO (2024); Population based on various sources (2024) – with major processing by Our World in Data. “Total employment in tourism industries per 1,000 people” [dataset]. UNWTO, “145 key tourism statistics”; Various sources, “Population” [original data].",
+      "fullMetadata": "https://api.ourworldindata.org/v1/indicators/985118.metadata.json"
+    }
+  },
+  "dateDownloaded": "2025-11-27",
+  "activeFilters": {}
+}
